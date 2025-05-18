@@ -120,27 +120,31 @@ void setup() {
   } else {
     SSD1306_allocated = true;
   }
-
   splashOLED();
 
   digitalWrite(LED_BUILTIN, LOW);
 }  // end splash()
 
+//bool is_Scroll = false;
+bool is_Scroll = true;
+
 void loop() {
   wink();
-  // // Scroll in various directions, pausing in-between:
-  // display.startscrollright(0x00, 0x0F);
-  // delay(2000);
-  // display.stopscroll();
-  // delay(1000);
-  // display.startscrollleft(0x00, 0x0F);
-  // delay(2000);
-  // display.stopscroll();
-  // delay(1000);
-  // display.startscrolldiagright(0x00, 0x07);
-  // delay(2000);
-  // display.startscrolldiagleft(0x00, 0x07);
-  // delay(2000);
-  // display.stopscroll();
-  // delay(1000);
+  if (true == is_Scroll) {
+    // Scroll in various directions, pausing in-between:
+    display.startscrollright(0x00, 0x0F);
+    delay(2000);
+    display.stopscroll();
+    delay(1000);
+    display.startscrollleft(0x00, 0x0F);
+    delay(2000);
+    display.stopscroll();
+    delay(1000);
+    display.startscrolldiagright(0x00, 0x07);
+    delay(2000);
+    display.startscrolldiagleft(0x00, 0x07);
+    delay(2000);
+    display.stopscroll();
+    delay(1000);
+  }
 }
