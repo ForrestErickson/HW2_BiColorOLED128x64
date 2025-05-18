@@ -16,13 +16,6 @@ Hardware is Homework2 which is ESP32 S2
 Bicolor I2C (CLK=??, SDA=?? ), OLED 
 */
 
-
-
-/*********
-  Rui Santos
-  Complete project details at https://randomnerdtutorials.com  
-*********/
-
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
@@ -51,11 +44,8 @@ bool SSD1306_allocated = false;
 //Functions
 //Wink the LED
 void wink(void) {
-  // TODO
-//  const int LED_BUILTIN = 2;  // ESP32 Kit//const int LED_BUILTIN = 13;    //Not really needed for Arduino UNO it is defined in library
+  //  const int LED_BUILTIN = 2;  // ESP32 Kit//const int LED_BUILTIN = 13;    //Not really needed for Arduino UNO it is defined in library
   pinMode(LED_BUILTIN, OUTPUT);
-  // const int HIGH_TIME_LED = 900;
-  // const int LOW_TIME_LED = 100;
   const int HIGH_TIME_LED = 1400;
   const int LOW_TIME_LED = 500;
   static unsigned long lastLEDtime = 0;
@@ -72,7 +62,48 @@ void wink(void) {
   }
 }  //end LED wink
 
+void splashOLED() {
+  //Display splash screen
+  if (true == SSD1306_allocated) {
+    int16_t rowHeight = 8;  // Just a guess
+    int16_t rowPosition = 0;
+    //    delay(2000);
+    //Display in top of BiColor Display
+    display.clearDisplay();
+    display.setTextSize(1);
+    display.setTextColor(WHITE);
+    display.setCursor(0, rowPosition);
+    display.println(PROG_NAME);
+    rowPosition += rowHeight;
+    display.setCursor(0, rowPosition);
+    display.println(VERSION);
+    //Display in bottom of BiColor Display
+    rowPosition += rowHeight;
+    display.setCursor(0, rowPosition);
+    display.println("1. ");
+    rowPosition += rowHeight;
+    display.setCursor(0, rowPosition);
+    display.println("2. ");
+    rowPosition += rowHeight;
+    display.setCursor(0, rowPosition);
+    display.println("3. ");
+    rowPosition += rowHeight;
+    display.setCursor(0, rowPosition);
+    display.println("4. ");
+    rowPosition += rowHeight;
+    display.setCursor(0, rowPosition);
+    display.println("5. ");
+    rowPosition += rowHeight;
+    display.setCursor(0, rowPosition);
+    display.println("8. ");
+
+    display.display();
+    delay(100);
+  }
+}  // end splashOLED
+
 //end of functions
+
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, HIGH);
@@ -86,28 +117,11 @@ void setup() {
   if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {  // Address 0x3D for 128x64
     Serial.println(F("SSD1306 allocation failed"));
     SSD1306_allocated = false;
-    //    for (;;)  //DO NOT TRAP program exicution.
-    //      ;
-
   } else {
     SSD1306_allocated = true;
   }
 
-  //Display splash screen
-  if (true == SSD1306_allocated) {
-    delay(2000);
-    display.clearDisplay();
-
-    display.setTextSize(1);
-    display.setTextColor(WHITE);
-    display.setCursor(0, 0);
-    // Display static text
-    display.println(PROG_NAME);
-//    display.println("Scrolling Hello");
-    display.display();
-    delay(100);
-  }
-
+  splashOLED();
 
   digitalWrite(LED_BUILTIN, LOW);
 }  // end splash()
@@ -129,5 +143,4 @@ void loop() {
   // delay(2000);
   // display.stopscroll();
   // delay(1000);
-  
 }
